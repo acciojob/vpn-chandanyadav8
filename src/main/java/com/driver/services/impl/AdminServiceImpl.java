@@ -11,8 +11,6 @@ import com.driver.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
@@ -26,25 +24,26 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin register(String username, String password) {
-        Admin admin=new Admin();
+        Admin admin = new Admin();
         admin.setPassword(password);
         admin.setUsername(username);
+
         adminRepository1.save(admin);
         return admin;
     }
 
     @Override
     public Admin addServiceProvider(int adminId, String providerName) {
-        ServiceProvider serviceProvider=new ServiceProvider();
-        serviceProvider.setName(providerName);
-        Admin admin=adminRepository1.findById(adminId).get();
-        serviceProvider.setAdmin(admin);
-        List<ServiceProvider>serviceProviderList=admin.getServiceProviderList();
-        serviceProviderList.add(serviceProvider);
-        admin.setServiceProviderList(serviceProviderList);
-        adminRepository1.save(admin);
-        return admin;
+        Admin admin = adminRepository1.findById(adminId).get();
+        ServiceProvider serviceProvider = new ServiceProvider();
 
+        serviceProvider.setAdmin(admin);
+        serviceProvider.setName(providerName);
+
+        admin.getServiceProviders().add(serviceProvider);
+        adminRepository1.save(admin);
+
+        return admin;
     }
 
     @Override

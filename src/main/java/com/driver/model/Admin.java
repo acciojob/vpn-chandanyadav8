@@ -1,31 +1,30 @@
 package com.driver.model;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="admin")
+@Table(name = "admin")
 public class Admin {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String username;
+
     private String password;
 
-    //admin is parent wrt to serviceprovider
-    @OneToMany(mappedBy = "admin",cascade = CascadeType.ALL)
-    private List<ServiceProvider> serviceProviderList;
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    private List<ServiceProvider> serviceProviders = new ArrayList<>();
 
-    public Admin() {
-    }
-
-    public Admin(int id, String username, String password, List<ServiceProvider> serviceProviderList) {
-        this.id = id;
+    public Admin(String username, String password) {
         this.username = username;
         this.password = password;
-        this.serviceProviderList = serviceProviderList;
+    }
+
+    public Admin() {
     }
 
     public int getId() {
@@ -52,11 +51,11 @@ public class Admin {
         this.password = password;
     }
 
-    public List<ServiceProvider> getServiceProviderList() {
-        return serviceProviderList;
+    public List<ServiceProvider> getServiceProviders() {
+        return serviceProviders;
     }
 
-    public void setServiceProviderList(List<ServiceProvider> serviceProviderList) {
-        this.serviceProviderList = serviceProviderList;
+    public void setServiceProviders(List<ServiceProvider> serviceProviders) {
+        this.serviceProviders = serviceProviders;
     }
 }
